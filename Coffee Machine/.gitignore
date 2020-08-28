@@ -137,6 +137,7 @@ Machines have needs
 On a coffee loop
 .idea/
 *.yaml
+*task.html
 test_helper.py
 tests.py
 requirements.txt

@@ -8,7 +8,6 @@
   <p><span class="math-tex">\(S = \frac{3\sqrt{3} * t^2}{2}\)</span>.</p> 
   <p>The name of the method has to be <code class="java">get_area</code>! The method doesn't receive any parameters and it doesn't print anything, just returns the calculated area (rounded to 3 decimals). You do NOT need to call the method in your program!</p> 
   <p>To calculate the square root use the <strong><code class="java">math.sqrt(x)</code></strong> method. (The <code class="java">math</code> module has already been imported.)</p> 
-  <p>Nothing else is required (you do NOT need to work with the input).</p>
  </body>
 </html><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">1</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">2.598</code></pre><br><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">5.4</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">75.760</code></pre>
 <a href="https://hyperskill.org/learn/step/6931">Show topic summary</a>
