@@ -10,5 +10,5 @@
   <p>To calculate the square root use the <strong><code class="java">math.sqrt(x)</code></strong> method. (The <code class="java">math</code> module has already been imported.)</p> 
   <p>Nothing else is required (you do NOT need to work with the input).</p>
  </body>
-</html><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">1</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">2.598</code></pre><br><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">5.4</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">75.760</code></pre><br><br><br><font color="gray">Memory limit: 256 MB</font><br><font color="gray">Time limit: 15 seconds</font><br><br>
+</html><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">1</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">2.598</code></pre><br><br><b>Sample Input:</b><br><pre><code class="language-no-highlight">5.4</code></pre><br><b>Sample Output:</b><br><pre><code class="language-no-highlight">75.760</code></pre>
 <a href="https://hyperskill.org/learn/step/6931">Show topic summary</a>
