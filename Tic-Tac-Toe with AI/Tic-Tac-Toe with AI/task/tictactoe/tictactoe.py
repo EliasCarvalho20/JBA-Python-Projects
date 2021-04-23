@@ -1,50 +1,59 @@
-def output_board():
-    print("---------")
-    for n in range(0, len(board), 3):
-        print(f"| {' '.join(board[n:n + 3])} |")
-    print("---------")
+from typing import Union
 
 
-def check_winner():
-    return [[board[n] for n in range(0, 9, 3) if board[n] == board[n + 1] == board[n + 2]],
-            [board[n] for n in range(0, 3, 1) if board[n] == board[n + 3] == board[n + 6]],
-            [board[n] for n in range(4, 0, -2) if board[4 - n] == board[4] == board[4 + n]]]
+class TicTacToe:
+    def __init__(self, winner: Union[str, None]) -> None:
+        self.board = [" " for _ in range(9)]  # list that represents 3x3 board
+        self.current_winner = winner  # stores the current winner
 
+    def print_board(self) -> None:
+        # it just print the board
+        print("---------")
+        for row in [self.board[i * 3 : (i + 1) * 3] for i in range(3)]:
+            print("| " + " ".join(row) + " |")
+        print("---------")
 
-def check_play():
-    winner = check_winner()
-    if any(list(map(lambda x: "X" in x, winner))):
-        print("X wins")
-        return True
-    elif any(list(map(lambda x: "O" in x, winner))):
-        print("O wins")
-        return True
+    def make_move(self, square: int, letter: str) -> bool:
+        # return True if it's a valid move, False otherwise
+        if self.board[square].isspace():
+            self.board[square] = letter
 
+            if self.winner(square, letter):
+                self.current_winner = letter
 
-board = [' ' for n in range(0, 9)]
-output_board()
-plays = 0
-while True:
-    try:
-        row, col = [int(n) for n in input("Enter the coordinates: ").split()]
-    except ValueError:
-        print("You should enter numbers!")
-        continue
-    if not (1 <= row <= 3 and 1 <= col <= 3):
-        print("Coordinates should be from 1 to 3!")
-        continue
+            return True
 
-    index = ((3 - col) * 3) + (row - 1)
-    if 'X' in board[index] or 'O' in board[index]:
-        print("This cell is occupied! Choose another one!")
-        continue
+        return False
 
-    plays += 1
-    board[index] = 'O' if plays % 2 == 0 else 'X'
-    output_board()
+    def winner(self, square: int, letter: str) -> bool:
+        # check row
+        row_index = square // 3
+        row = self.board[row_index * 3 : (row_index + 1) * 3]
+        if all([spot == letter for spot in row]):
+            return True
 
-    if check_play():
-        break
-    elif plays == 9:
-        print("Drawn")
-        break
+        # check column
+        column_index = square % 3
+        column = [self.board[column_index + i * 3] for i in range(3)]
+        if all([spot == letter for spot in column]):
+            return True
+
+        # check diagonals
+        if square % 2 == 0:
+            diagonal1 = [self.board[i] for i in [0, 4, 8]]
+            if all([spot == letter for spot in diagonal1]):
+                return True
+            diagonal2 = [self.board[i] for i in [2, 4, 6]]
+            if all([spot == letter for spot in diagonal2]):
+                return True
+
+        return False
+
+    def available_moves(self) -> list:
+        return [i for i, spot in enumerate(self.board) if spot.isspace()]
+
+    def empty_square(self) -> bool:
+        return " " in self.board
+
+    def num_empty_squares(self) -> int:
+        return self.board.count(" ")
