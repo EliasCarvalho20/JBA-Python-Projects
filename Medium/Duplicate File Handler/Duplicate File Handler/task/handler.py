@@ -1,4 +1,5 @@
 import os
+import hashlib
 from sys import argv, exit
 
 
@@ -30,6 +31,14 @@ def get_inputs():
     search_files(file_format)
 
 
+def search_files(file_format):
+    for root, _, files in os.walk(args[1]):
+        for name in files:
+            update_dict(root, name, file_format)
+
+    print_dict()
+
+
 def update_dict(root, name, file_format):
     def save_to_dict():
         file_path = os.path.join(root, name)
@@ -46,32 +55,67 @@ def update_dict(root, name, file_format):
         save_to_dict()
 
 
-def search_files(file_format):
-    for root, _, files in os.walk(args[1]):
-        for name in files:
-            update_dict(root, name, file_format)
-
-    print_dict()
-
-
 def print_dict():
-    if len(files_dict) == 0:
-        return None
+    for key in sorted(files_dict, reverse=sorting):
+        print(f"{key} bytes", *files_dict[key], sep="\n", end="\n\n")
 
-    key = max(files_dict.keys()) if sorting else min(files_dict.keys())
-    print(f"{key} bytes", *files_dict[key], sep="\n")
-    print()
 
-    files_dict.pop(key)
-    return print_dict()
+def check_dup():
+    while True:
+        user_input = input("Check for duplicates?\n")
+
+        if "yes" in user_input:
+            return True
+        elif "no" in user_input:
+            exit()
+        else:
+            print("Wrong option")
+            continue
+
+
+def get_file_hash():
+    for k, v in files_dict.items():
+        for file in v:
+            with open(file, "rb") as f:
+                content = f.read()
+            save_hash(k, file, hashlib.md5(content).hexdigest())
+
+
+def save_hash(key, file, hash_value):
+    if files_hash.get(key):
+        if files_hash[key].get(hash_value):
+            files_hash[key][hash_value].append(file)
+        else:
+            files_hash[key].update({hash_value: [file]})
+    else:
+        files_hash.update({key: {hash_value: [file]}})
+
+
+def print_hash():
+    counter = 0
+
+    for keys in sorted(files_hash, reverse=sorting):
+        print(f"{keys} bytes")
+        for k, v in files_hash[keys].items():
+            if len(files_hash[keys].get(k)) >= 2:
+                print(f"Hash: {k}")
+                for file in v:
+                    counter += 1
+                    print(f"{counter}. {file}", end="\n")
+
+        print()
 
 
 if __name__ == '__main__':
-    # args = [argv[0], "../../Duplicate File Handler"]
     args = argv
 
     files_dict = {}
+    files_hash = {}
     sorting = False
 
     get_args()
     get_inputs()
+
+    if check_dup():
+        get_file_hash()
+        print_hash()
