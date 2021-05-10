@@ -25,10 +25,7 @@ def get_inputs():
 
         break
 
-    global sorting
-    sorting = order == 1
-
-    search_files(file_format)
+    return order == 1, file_format
 
 
 def search_files(file_format):
@@ -60,9 +57,9 @@ def print_dict():
         print(f"{key} bytes", *files_dict[key], sep="\n", end="\n\n")
 
 
-def check_dup():
+def check_dup(message):
     while True:
-        user_input = input("Check for duplicates?\n")
+        user_input = input(message)
 
         if "yes" in user_input:
             return True
@@ -101,9 +98,30 @@ def print_hash():
                 print(f"Hash: {k}")
                 for file in v:
                     counter += 1
+                    dup_files.update({counter: {keys: file}})
                     print(f"{counter}. {file}", end="\n")
 
         print()
+
+
+def delete_dup():
+    try:
+        user_input = [int(n) for n in input("Enter file numbers to delete:\n").split()]
+        if not user_input or not {*user_input}.issubset(dup_files.keys()):
+            raise ValueError
+    except ValueError:
+        print("\nWrong format\n")
+        return delete_dup()
+
+    bytes_removed = 0
+
+    for n in user_input:
+        for k, v in dup_files[n].items():
+            bytes_removed += k
+            os.remove(v)
+
+    print(f"\nTotal freed up space: {bytes_removed} bytes")
+    return None
 
 
 if __name__ == '__main__':
@@ -111,11 +129,14 @@ if __name__ == '__main__':
 
     files_dict = {}
     files_hash = {}
-    sorting = False
+    dup_files = {}
 
     get_args()
-    get_inputs()
+    sorting, file_format = get_inputs()
+    search_files(file_format)
 
-    if check_dup():
+    if check_dup("Check for duplicates?\n"):
         get_file_hash()
         print_hash()
+    if check_dup("Delete files?\n"):
+        delete_dup()
