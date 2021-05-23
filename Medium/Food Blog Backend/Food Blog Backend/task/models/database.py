@@ -2,42 +2,42 @@ from sqlite3 import connect, Error
 
 
 class Database:
-    def __init__(self, filename: str) -> None:
-        self.FILE_NAME = filename
+    def __init__(self) -> None:
         self.connection = None
 
-    def create_connection(self) -> None:
-        self.connection = connect(self.FILE_NAME)
+    def make_connection(self, filename: str) -> None:
+        self.connection = connect(filename)
 
     def create_tables(self, tables_to_create: dict) -> None:
         try:
             for values in tables_to_create.values():
-                with self.connection:
-                    self.connection.execute(values)
+                self.connection.execute(values)
         except Error as err:
             print(f"Error: {err}")
 
-    def add_to_tables(self, data: dict, data_query: dict) -> None:
+    def add_to_tables(self, data_query: dict, data: dict) -> None:
         try:
             for key, query in data_query.items():
-                for values in data[key]:
-                    with self.connection:
-                        self.connection.execute(query, (values,))
+                self.connection.executemany(query, data[key])
         except Error as err:
             print(f"Error: {err}")
 
-    def add_values_to_recipes(self, data: dict, data_query: dict) -> None:
+    def get_meals(self, query: str) -> list:
         try:
-            for key, query in data_query.items():
-                temp = tuple(data[key])
-
-                with self.connection:
-                    self.connection.executemany(query, (temp,))
+            with self.connection:
+                return self.connection.execute(query).fetchall()
         except Error as err:
             print(f"Error: {err}")
 
-    def commit_changes(self):
+    def get_recipes(self, query: str, recipe_names: str) -> list:
+        try:
+            with self.connection:
+                return self.connection.execute(query, (recipe_names,)).fetchone()
+        except Error as err:
+            print(f"Error: {err}")
+
+    def commit_changes(self) -> None:
         self.connection.commit()
 
-    def close_connection(self):
+    def close_connection(self) -> None:
         self.connection.close()
