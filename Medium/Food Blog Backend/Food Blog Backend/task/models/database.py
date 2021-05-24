@@ -1,43 +1,40 @@
 from sqlite3 import connect, Error
 
 
-class Database:
-    def __init__(self) -> None:
+class DBConnection:
+    def __init__(self, db_name: str) -> None:
         self.connection = None
+        self.cursor = None
+        self.db_name = db_name
 
-    def make_connection(self, filename: str) -> None:
-        self.connection = connect(filename)
+    def create_connection(self) -> None:
+        self.connection = connect(self.db_name)
+        self.cursor = self.connection.cursor()
 
-    def create_tables(self, tables_to_create: dict) -> None:
-        try:
-            for values in tables_to_create.values():
-                self.connection.execute(values)
-        except Error as err:
-            print(f"Error: {err}")
-
-    def add_to_tables(self, data_query: dict, data: dict) -> None:
-        try:
-            for key, query in data_query.items():
-                self.connection.executemany(query, data[key])
-        except Error as err:
-            print(f"Error: {err}")
-
-    def get_meals(self, query: str) -> list:
+    def execute_query(self, query: str) -> None:
         try:
             with self.connection:
-                return self.connection.execute(query).fetchall()
+                self.cursor.execute(query)
         except Error as err:
             print(f"Error: {err}")
 
-    def get_recipes(self, query: str, recipe_names: str) -> list:
+    def execute_many(self, query: str, data: list) -> None:
         try:
             with self.connection:
-                return self.connection.execute(query, (recipe_names,)).fetchone()
+                self.cursor.executemany(query, data)
         except Error as err:
             print(f"Error: {err}")
 
-    def commit_changes(self) -> None:
-        self.connection.commit()
+    def select_one(self, query: str, param: str) -> None:
+        try:
+            with self.connection:
+                self.cursor.execute(query, (param,))
+        except Error as err:
+            print(f"Error: {err}")
 
-    def close_connection(self) -> None:
-        self.connection.close()
+    def select_all(self, query: str) -> None:
+        try:
+            with self.connection:
+                self.cursor.execute(query)
+        except Error as err:
+            print(f"Error: {err}")
