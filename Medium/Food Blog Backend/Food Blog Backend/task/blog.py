@@ -1,5 +1,6 @@
 import sys
 import argparse
+from argparse import Namespace
 
 from data.food_data import DATA
 from tables.Ingredients import Ingredients
@@ -13,12 +14,12 @@ from tables.Quantity import Quantity
 class Menu:
     def __init__(self, db_name: str) -> None:
         self.tables = None
-        self.ingredients_table = Ingredients(db_name)
-        self.meals_table = Meals(db_name)
-        self.measure_table = Measure(db_name)
-        self.recipes_table = Recipes(db_name)
-        self.serve_table = Serve(db_name)
-        self.quantity_table = Quantity(db_name)
+        self.ingredients_table = Ingredients("ingredient", db_name)
+        self.meals_table = Meals("meal", db_name)
+        self.measure_table = Measure("measure", db_name)
+        self.recipes_table = Recipes("recipe", db_name)
+        self.serve_table = Serve("serve", db_name)
+        self.quantity_table = Quantity("quantity", db_name)
         self.meals_list = []
 
     def execute(self) -> None:
@@ -91,10 +92,12 @@ class Menu:
         return msr_quantity, ing_quantity
 
 
-def cli_arguments() -> str:
-    parser = argparse.ArgumentParser(description="A simple program that creates and populates a recipe database")
-    parser.add_argument("db_name", type=str, help="The database name")
-    return parser.parse_args().db_name
+def arguments() -> Namespace:
+    parser = argparse.ArgumentParser(description="A simple program that creates and populates a recipe database.")
+    parser.add_argument("db_name", type=str, help="The database name.")
+    parser.add_argument("--ingredients", type=str, default="", help="Ingredients separated by commas.")
+    parser.add_argument("--meals", type=str, default="", help="Meals separated by commas.")
+    return parser.parse_args()
 
 
 def exit_program(message: str) -> None:
@@ -102,11 +105,21 @@ def exit_program(message: str) -> None:
 
 
 if __name__ == "__main__":
-    # db_name = self.cli_arguments()
-    db_name = "food_blog.db"
+    args = arguments()
+    db_name = args.__getattribute__("db_name")
+    ingredients = args.__getattribute__("ingredients").split(",")
+    meals = args.__getattribute__("meals").split(",")
 
     if not db_name:
         exit_program("No database name provided")
+
+    if ingredients[0] != "" and meals[0] != "":
+        recipes = Recipes("recipe", db_name)
+        result_str = recipes.get_recipes_by_ingredients(ingredients, meals)
+        print(result_str)
+
+        recipes.db.connection.close()
+        exit_program("Bye")
 
     menu = Menu(db_name)
     menu.execute()

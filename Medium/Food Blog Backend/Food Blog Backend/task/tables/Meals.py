@@ -2,9 +2,8 @@ from .Tables import Table
 
 
 class Meals(Table):
-    def __init__(self, db_name: str) -> None:
-        super().__init__(db_name)
-        self.table_name = "meal"
+    def __init__(self, table_name: str, db_name: str) -> None:
+        super().__init__(table_name, db_name)
 
     def get_all_meals(self) -> list:
         self.db.create_connection()

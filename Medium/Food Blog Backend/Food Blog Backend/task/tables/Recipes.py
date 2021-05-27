@@ -2,9 +2,8 @@ from .Tables import Table
 
 
 class Recipes(Table):
-    def __init__(self, db_name: str) -> None:
-        super().__init__(db_name)
-        self.table_name = "recipe"
+    def __init__(self, table_name: str, db_name: str) -> None:
+        super().__init__(table_name, db_name)
 
     def create_table(self) -> None:
         self.db.create_connection()
@@ -26,3 +25,28 @@ class Recipes(Table):
         self.db.execute_query(query)
         self.db.connection.commit()
         return self.db.cursor.lastrowid
+
+    def get_recipes_by_ingredients(self, ingredients: list, meals: list) -> str:
+        self.db.create_connection()
+        ing_str = ", ".join(f"'{i}'" for i in ingredients)
+        meals_str = ", ".join(f"'{m}'" for m in meals)
+
+        query = (
+            "SELECT r.recipe_name FROM recipes r "
+            "INNER JOIN quantity q on r.recipe_id = q.recipe_id "
+            "INNER JOIN serve s on s.recipe_id = r.recipe_id "
+            "INNER JOIN ingredients i on i.ingredient_id = q.ingredient_id "
+            "INNER JOIN meals m on m.meal_id = s.meal_id "
+            f"WHERE i.ingredient_name IN ({ing_str}) "
+            f"AND m.meal_name IN ({meals_str}) "
+            "GROUP BY r.recipe_id "
+            f"HAVING COUNT(r.recipe_id) = {len(ingredients)};"
+        )
+
+        self.db.execute_query(query)
+        result = self.db.cursor.fetchall()
+
+        if result:
+            return f"Recipes selected for you: {', '.join(s[0] for s in result)}"
+
+        return "There are no such recipes in the database."

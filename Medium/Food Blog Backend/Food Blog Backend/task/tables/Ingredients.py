@@ -2,6 +2,5 @@ from .Tables import Table
 
 
 class Ingredients(Table):
-    def __init__(self, db_name: str) -> None:
-        super().__init__(db_name)
-        self.table_name = "ingredient"
+    def __init__(self, table_name: str, db_name: str) -> None:
+        super().__init__(table_name, db_name)

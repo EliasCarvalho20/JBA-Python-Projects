@@ -9,8 +9,8 @@ from models.database import DBConnection
 
 
 class Table(ABC):
-    def __init__(self, db_name: str) -> None:
-        self.table_name = ""
+    def __init__(self, table_name: str, db_name: str) -> None:
+        self.table_name = table_name
         self.db = DBConnection(db_name)
 
     def create_table(self) -> None:

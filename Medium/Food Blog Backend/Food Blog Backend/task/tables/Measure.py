@@ -2,9 +2,8 @@ from .Tables import Table
 
 
 class Measure(Table):
-    def __init__(self, db_name: str) -> None:
-        super().__init__(db_name)
-        self.table_name = "measure"
+    def __init__(self, table_name: str, db_name: str) -> None:
+        super().__init__(table_name, db_name)
 
     def create_table(self) -> None:
         self.db.create_connection()

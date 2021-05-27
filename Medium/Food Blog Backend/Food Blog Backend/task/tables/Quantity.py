@@ -2,9 +2,8 @@ from .Tables import Table
 
 
 class Quantity(Table):
-    def __init__(self, db_name: str) -> None:
-        super().__init__(db_name)
-        self.table_name = "quantity"
+    def __init__(self, table_name: str, db_name: str) -> None:
+        super().__init__(table_name, db_name)
 
     def create_table(self) -> None:
         self.db.create_connection()
@@ -24,9 +23,7 @@ class Quantity(Table):
         self.db.execute_query(query)
         self.db.connection.commit()
 
-    def populate(
-        self, quantity: int, measure: str, ingredients: str, recipe_id: int
-    ) -> None:
+    def populate(self, quantity: int, measure: str, ingredients: str, recipe_id: int) -> None:
         measure_id = self.get_by_id("measure", measure)
         ingredient_id = self.get_by_id("ingredient", ingredients)
 
