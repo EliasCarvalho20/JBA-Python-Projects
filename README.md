@@ -22,16 +22,17 @@
 | | ![Easy](https://hyperskill.azureedge.net/static/img/easy.331dff7f.svg) Easy | |
 --- | --- | --- |
 ✔ [Coffee Machine](https://hyperskill.org/projects/68) | ✔ [Currency Converter](https://hyperskill.org/projects/157) |✔ [Dominoes](https://hyperskill.org/projects/146)
-✔ [Hangman](https://hyperskill.org/projects/69) | ✔ [Markdown Editor](https://hyperskill.org/projects/162) | ✔ [Loan Calculator](https://hyperskill.org/projects/90)
+✔ [Hangman](https://hyperskill.org/projects/69) | ✔ [Generating Randomness](https://hyperskill.org/projects/156) | ✔ [Loan Calculator](https://hyperskill.org/projects/90)
 ✔ [Simple Chatty Bot](https://hyperskill.org/projects/97) |  ✔ [Tic-Tac-Toe](https://hyperskill.org/projects/73) | ✔ [Zookeeper](https://hyperskill.org/projects/98)
-✔ [Bill Splitter](https://hyperskill.org/projects/175) | ✔ [Generating Randomness](https://hyperskill.org/projects/156)
+✔ [Bill Splitter](https://hyperskill.org/projects/175) |
 
 | | ![Medium](https://hyperskill.azureedge.net/static/img/medium.4bc6849c.svg) Medium | |
 --- | --- | --- |
 ✔ [Simple Banking System ](https://hyperskill.org/projects/109) | ✔ [Duplicate File Handler ](https://hyperskill.org/projects/176) | [Robogotchi](https://hyperskill.org/projects/135)
 ✔ [Food Blog Backend ](https://hyperskill.org/projects/167) | ✔ [Rock-Paper-Scissors](https://hyperskill.org/projects/78) | ✔ [Web Scraper](https://hyperskill.org/projects/145)
-✔ [Arithmetic Exam Application](https://hyperskill.org/projects/173) | [Readability Score](https://hyperskill.org/projects/155) | [Knight's Tour Puzzle](https://hyperskill.org/projects/141) 
-✔ [Numeric Matrix Processor](https://hyperskill.org/projects/96) | [University Admission Procedure ](https://hyperskill.org/projects/163)
+✔ [Markdown Editor](https://hyperskill.org/projects/162) | [Readability Score](https://hyperskill.org/projects/155) | [Knight's Tour Puzzle](https://hyperskill.org/projects/141) 
+✔ [Numeric Matrix Processor](https://hyperskill.org/projects/96) | [University Admission Procedure ](https://hyperskill.org/projects/163) | [Data Analysis for Hospitals ](https://hyperskill.org/projects/152) 
+✔ [Arithmetic Exam Application](https://hyperskill.org/projects/173) |
 
 | | ![Hard](https://hyperskill.azureedge.net/static/img/hard.e8e1bf49.svg) Hard | |
 --- | --- | --- |
